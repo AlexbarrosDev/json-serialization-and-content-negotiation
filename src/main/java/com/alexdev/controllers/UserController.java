@@ -4,6 +4,7 @@ import com.alexdev.dtos.request.UserCreateDTO;
 import com.alexdev.dtos.response.UserDTO;
 import com.alexdev.services.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,25 +20,41 @@ public class UserController {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping(produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+    })
     public ResponseEntity<List<UserDTO>> findAll() {
 
         return ResponseEntity.ok().body(service.findAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+    })
     public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
 
         return ResponseEntity.ok().body(service.findById(id));
     }
 
-    @PostMapping
+    @PostMapping(produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE}, consumes = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+    })
     public ResponseEntity<UserDTO> create(@RequestBody UserCreateDTO user) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(user));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE}, consumes = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+    })
     public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserCreateDTO user) {
 
         return ResponseEntity.ok().body(service.update(id, user));
